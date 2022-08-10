@@ -1,6 +1,10 @@
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button } from 'react-native';
+import { RootStackParamList } from '../types/navigation';
 
-export const HomeScreen = ({ navigation }: any) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
+
+export const HomeScreen = ({ navigation }: Props) => {
   return (
     <Button
       title="Go to Jane's profile"

@@ -1,4 +1,4 @@
-import { StyleSheet, Text } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -8,31 +8,35 @@ import { store } from './src/redux/store';
 
 import { useAppSelector } from './src/redux/hooks';
 import { HomeScreen } from './src/pages/HomeScreen';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from './src/types/navigation';
 
-const Tab = createBottomTabNavigator();
+const RootStack = createBottomTabNavigator<RootStackParamList>();
 
 export default function App() {
   return (
     <Provider store={store}>
       <NavigationContainer>
         <StatusBar style="auto" />
-        <Tab.Navigator>
-          <Tab.Screen name="Home" component={HomeScreen} options={{ title: 'RideOn' }} />
-          <Tab.Screen name="Profile" component={ProfileScreen} />
-        </Tab.Navigator>
+        <RootStack.Navigator initialRouteName="Home">
+          <RootStack.Screen name="Home" component={HomeScreen} options={{ title: 'RideOn' }} />
+          <RootStack.Screen name="Profile" component={ProfileScreen} />
+        </RootStack.Navigator>
       </NavigationContainer>
     </Provider>
   );
 }
 
-const ProfileScreen = ({ navigation, route }: any) => {
+type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
+
+const ProfileScreen = ({ navigation, route }: Props) => {
   const username = useAppSelector((state: any) => state.user.username);
 
   return (
-    <>
+    <View>
       <Text>{username}</Text>
       {route.params && <Text>This is {route.params.name || username}'s profile</Text>}
-    </>
+    </View>
   );
 };
 
