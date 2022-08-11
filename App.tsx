@@ -1,15 +1,15 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 import { NavigationContainer } from '@react-navigation/native';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { StatusBar } from 'expo-status-bar';
 
 import { store } from './src/redux/store';
-
 import { useAppSelector } from './src/redux/hooks';
-import { HomeScreen } from './src/pages/HomeScreen';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { RootStackParamList } from './src/types/navigation';
+
+import { HomeScreen } from '@Screens/HomeScreen';
+import { RootStackParamList } from '@Types/navigation';
 
 const RootStack = createBottomTabNavigator<RootStackParamList>();
 
