@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const storeData = async (key, value) => {
+const storeData = async (key, value) => {
   try {
     await AsyncStorage.setItem(key, value);
   } catch (e) {
@@ -8,19 +8,16 @@ export const storeData = async (key, value) => {
   }
 };
 
-export const getData = async (key) => {
-  let value,
-    error = null;
+const getData = async (key) => {
   try {
-    value = await AsyncStorage.getItem(key);
+    const value = await AsyncStorage.getItem(key);
     if (value !== null) {
-      error = null;
-    } else {
-      error = 'Nothing found';
+      return { error: false, token: value, message: 'Success' };
     }
+    throw new Error('No token found in your local storage');
   } catch (e) {
-    value = null;
-    error = e.message;
+    return { error: true, token: null, message: e.message };
   }
-  return { value, error };
 };
+
+export default { getData, storeData };
