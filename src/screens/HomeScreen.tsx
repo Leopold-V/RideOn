@@ -1,37 +1,44 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Button, View } from 'react-native';
 import { RootStackParamList } from '@Types/navigation';
+import { User, UserLoginAPIResponse } from '@Types/user';
 import userService from '../services/user.service';
-import storage from '../utils/asyncStorage';
+import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { loginUserAction, updateUserAction } from '../redux/actions/user.actions';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Profile'>;
 
 export const HomeScreen = ({ navigation }: Props) => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state: any) => state.user);
+
+  console.log(user);
+
   const updateUser = async () => {
-    const body = {
+    const user: User = {
+      id: '01GAB4CF2ZECW5ZPJXXAG2KFVA',
       firstname: 'John2',
       lastname: 'Doe',
-      password: '123456',
       email: 'johndoe2@gmail.com',
       isOnline: true,
       friendslist: ['1', '5', '7'],
     };
     try {
-      await userService.updateUser(body, '01GAB4CF2ZECW5ZPJXXAG2KFVA');
+      dispatch(updateUserAction(user));
     } catch (e: any) {
       console.log(e.message);
     }
   };
 
   const createUser = async () => {
-    const body = {
+    const user: User = {
       firstname: 'John4',
       lastname: 'Doe4',
       password: '1234567',
       email: 'johndoe4@gmail.com',
     };
     try {
-      await userService.createUser(body);
+      await userService.createUser(user);
     } catch (e: any) {
       console.log(e.message);
     }
@@ -39,13 +46,12 @@ export const HomeScreen = ({ navigation }: Props) => {
 
   const loginUser = async () => {
     try {
-      const data = await userService.loginUser('johndoe4@gmail.com', '1234567');
-      if (data.error) {
-        console.log(data.message);
-      } else {
-        console.log(data.message);
-        await storage.storeData('token', data.token);
-      }
+      const credentials = {
+        email: 'johndoe4@gmail.com',
+        password: '1234567',
+      };
+      //const data: UserLoginAPIResponse = await userService.loginUser('johndoe4@gmail.com', '1234567');
+      dispatch(loginUserAction(credentials));
     } catch (e: any) {
       console.log(e.message);
     }

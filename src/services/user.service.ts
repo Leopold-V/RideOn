@@ -1,6 +1,7 @@
+import { User, UserAPIResponse, UserLoginAPIResponse } from '@Types/user';
 import storage from '../utils/asyncStorage';
 
-export const loginUser = async (email, password) => {
+export const loginUser = async (email: string, password: string): Promise<UserLoginAPIResponse> => {
   const response = await fetch('http://localhost:3001/api/v1/users/login', {
     method: 'POST',
     headers: {
@@ -11,41 +12,42 @@ export const loginUser = async (email, password) => {
       password: password,
     }),
   });
-  const data = await response.json();
+  const data: UserLoginAPIResponse = await response.json();
   return data;
 };
 
-export const createUser = async (body) => {
+export const createUser = async (user: User): Promise<UserAPIResponse> => {
   const response = await fetch('http://localhost:3001/api/v1/users/signup', {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ ...body }),
+    body: JSON.stringify({ ...user }),
   });
-  const data = await response.json();
-  console.log(data);
+  const data: UserAPIResponse = await response.json();
+  return data;
 };
 
-export const updateUser = async (body, id) => {
+export const updateUser = async (user: User): Promise<UserAPIResponse> => {
   const result = await storage.getData('token');
   if (!result.error) {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${id}`, {
+    const response = await fetch(`http://localhost:3001/api/v1/users/${user.id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: 'Bearer ' + result.token,
       },
-      body: JSON.stringify({ ...body }),
+      body: JSON.stringify({ ...user }),
     });
-    const data = await response.json();
+    const data: UserAPIResponse = await response.json();
     console.log(data);
+    return data;
   } else {
     return result;
   }
 };
 
-export const getUser = async (id) => {
+export const getUser = async (id: string): Promise<UserAPIResponse> => {
   const result = await storage.getData('token');
   if (!result.error) {
     const response = await fetch(`http://localhost:3001/api/v1/users/${id}`, {
@@ -55,15 +57,14 @@ export const getUser = async (id) => {
         Authorization: 'Bearer ' + result.token,
       },
     });
-    console.log(response.ok);
-    const data = await response.json();
+    const data: UserAPIResponse = await response.json();
     return data;
   } else {
     return result;
   }
 };
 
-export const isUserAuth = async () => {
+export const isUserAuth = async (): Promise<UserAPIResponse> => {
   const result = await storage.getData('token');
   if (!result.error) {
     const response = await fetch(`http://localhost:3001/api/v1/users/auth`, {
