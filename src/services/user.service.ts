@@ -28,23 +28,18 @@ export const createUser = async (user: User): Promise<UserAPIResponse> => {
   return data;
 };
 
-export const updateUser = async (user: User): Promise<UserAPIResponse> => {
-  const result = await storage.getData('token');
-  if (!result.error) {
+export const updateUser = async (user: User, token: string): Promise<UserAPIResponse> => {
     const response = await fetch(`http://localhost:3001/api/v1/users/${user.id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + result.token,
+        Authorization: 'Bearer ' + token,
       },
       body: JSON.stringify({ ...user }),
     });
     const data: UserAPIResponse = await response.json();
     console.log(data);
     return data;
-  } else {
-    return result;
-  }
 };
 
 export const getUser = async (id: string): Promise<UserAPIResponse> => {

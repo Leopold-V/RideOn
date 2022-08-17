@@ -32,13 +32,14 @@ export const HomeScreen = ({ navigation }: Props) => {
 
   const createUser = async () => {
     const user: User = {
-      firstname: 'John4',
-      lastname: 'Doe4',
+      firstname: 'John5',
+      lastname: 'Doe5',
       password: '1234567',
-      email: 'johndoe4@gmail.com',
+      email: 'johndoe5@gmail.com',
     };
     try {
-      await userService.createUser(user);
+      const response = await userService.createUser(user);
+      response.error ? console.log(response.message) : dispatch(loginUserAction({email: user.email, password: user.password}));
     } catch (e: any) {
       console.log(e.message);
     }

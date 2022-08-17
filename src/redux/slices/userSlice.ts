@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { loginUserAction, updateUserAction } from '../actions/user.actions';
 
 export const userSlice = createSlice({
@@ -10,7 +10,7 @@ export const userSlice = createSlice({
     loading: true,
     loadingData: false,
     loadingUsers: true,
-    error: '',
+    error: false,
     message: '',
   },
   reducers: {
@@ -30,14 +30,17 @@ export const userSlice = createSlice({
     },
     [loginUserAction.fulfilled]: (state, action: any) => {
       state.loading = false;
-      state.user = action.payload.user;
-      state.isAuthenticated = true;
       state.error = action.payload.error;
       state.message = action.payload.message;
+      if (!action.payload.error) {
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+      }
     },
     [loginUserAction.rejected]: (state, action: any) => {
       state.loadingData = false;
-      state.error = action.payload;
+      state.error = true;
+      state.message = action.payload;
     },
     [updateUserAction.pending]: (state: any) => {
       state.loadingData = true;
@@ -55,7 +58,8 @@ export const userSlice = createSlice({
     },
     [updateUserAction.rejected]: (state: any, action) => {
       state.loadingData = false;
-      state.error = action.payload;
+      state.error = true;
+      state.message = action.payload;
     },
   },
 });

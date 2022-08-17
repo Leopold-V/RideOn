@@ -7,10 +7,15 @@ export const updateUserAction: any = createAsyncThunk(
   'users/updateUser',
   async (data: User, { rejectWithValue }) => {
     try {
-      const result = await userService.updateUser(data);
-      return { ...result };
+      const tokenData = await storage.getData('token');
+      if (tokenData.token) {
+        const result = await userService.updateUser(data, tokenData.token);
+        return { ...result };
+      } else {
+        throw new Error(tokenData.message);
+      }
     } catch (error: any) {
-      return rejectWithValue(error.code);
+      return rejectWithValue(error.message);
     }
   }
 );
@@ -25,7 +30,7 @@ export const loginUserAction: any = createAsyncThunk(
       }
       return { ...result };
     } catch (error: any) {
-      return rejectWithValue(error.code);
+      return rejectWithValue(error.message);
     }
   }
 );
