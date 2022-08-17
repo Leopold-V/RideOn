@@ -39,7 +39,9 @@ export const HomeScreen = ({ navigation }: Props) => {
     };
     try {
       const response = await userService.createUser(user);
-      response.error ? console.log(response.message) : dispatch(loginUserAction({email: user.email, password: user.password}));
+      response.error
+        ? console.log(response.message)
+        : dispatch(loginUserAction({ email: user.email, password: user.password }));
     } catch (e: any) {
       console.log(e.message);
     }

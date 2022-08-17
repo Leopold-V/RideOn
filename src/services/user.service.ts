@@ -29,17 +29,17 @@ export const createUser = async (user: User): Promise<UserAPIResponse> => {
 };
 
 export const updateUser = async (user: User, token: string): Promise<UserAPIResponse> => {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${user.id}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + token,
-      },
-      body: JSON.stringify({ ...user }),
-    });
-    const data: UserAPIResponse = await response.json();
-    console.log(data);
-    return data;
+  const response = await fetch(`http://localhost:3001/api/v1/users/${user.id}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: 'Bearer ' + token,
+    },
+    body: JSON.stringify({ ...user }),
+  });
+  const data: UserAPIResponse = await response.json();
+  console.log(data);
+  return data;
 };
 
 export const getUser = async (id: string): Promise<UserAPIResponse> => {
