@@ -1,4 +1,8 @@
 export type RootStackParamList = {
   Home: undefined;
-  Profile: { name: string };
+  Compare: undefined;
+  Notifications: undefined;
+  Settings: undefined;
+  SignIn: undefined;
+  SignUp: undefined;
 };

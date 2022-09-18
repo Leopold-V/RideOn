@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loginUserAction, updateUserAction } from '../actions/user.actions';
+import { isUserAuthAction, loginUserAction, updateUserAction } from '../actions/user.actions';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -9,7 +9,7 @@ export const userSlice = createSlice({
     users: null,
     loading: true,
     loadingData: false,
-    loadingUsers: true,
+    loadingUsers: false,
     error: false,
     message: '',
   },
@@ -22,11 +22,14 @@ export const userSlice = createSlice({
       state.loading = false;
       state.user = null;
       state.isAuthenticated = false;
+      state.error = false;
+      state.message = '';
     },
   },
   extraReducers: {
     [loginUserAction.pending]: (state) => {
       state.loadingData = true;
+      state.loading = true;
     },
     [loginUserAction.fulfilled]: (state, action: any) => {
       state.loading = false;
@@ -38,6 +41,7 @@ export const userSlice = createSlice({
       }
     },
     [loginUserAction.rejected]: (state, action: any) => {
+      state.loading = false;
       state.loadingData = false;
       state.error = true;
       state.message = action.payload;
@@ -60,6 +64,24 @@ export const userSlice = createSlice({
       state.loadingData = false;
       state.error = true;
       state.message = action.payload;
+    },
+    [isUserAuthAction.pending]: (state) => {
+      state.loading = true;
+    },
+    [isUserAuthAction.fulfilled]: (state, action: any) => {
+      state.loading = false;
+      state.error = action.payload.error;
+      state.message = action.payload.message;
+      if (!action.payload.error) {
+        state.isAuthenticated = true;
+        state.user = action.payload.user;
+      }
+    },
+    [isUserAuthAction.rejected]: (state, action: any) => {
+      state.loading = false;
+      state.error = true;
+      state.message = action.payload;
+      state.isAuthenticated = false;
     },
   },
 });

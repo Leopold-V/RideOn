@@ -20,6 +20,23 @@ export const updateUserAction: any = createAsyncThunk(
   }
 );
 
+export const isUserAuthAction: any = createAsyncThunk(
+  'users/isUserAuth',
+  async (data, { rejectWithValue }) => {
+    try {
+      const tokenData = await storage.getData('token');
+      if (tokenData.token) {
+      const result: any = await userService.isUserAuth(tokenData.token);
+      return { ...result };
+      } else {
+        throw new Error(tokenData.message);
+      }
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
 export const loginUserAction: any = createAsyncThunk(
   'users/loginUser',
   async (data: { email: string; password: string }, { rejectWithValue }) => {
@@ -34,3 +51,4 @@ export const loginUserAction: any = createAsyncThunk(
     }
   }
 );
+
