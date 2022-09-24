@@ -7,9 +7,10 @@ export const userSlice = createSlice({
     isAuthenticated: false,
     user: null,
     users: null,
-    loading: true,
-    loadingData: false,
+    loadingApp: true,
+    loadingLogin: false,
     loadingUsers: false,
+    showSnackbar: false,
     error: false,
     message: '',
   },
@@ -19,38 +20,45 @@ export const userSlice = createSlice({
       state.users = action.payload;
     },
     noUser: (state) => {
-      state.loading = false;
+      state.loadingApp = false;
       state.user = null;
       state.isAuthenticated = false;
       state.error = false;
       state.message = '';
     },
+    hideSnackbar: (state) => {
+      state.showSnackbar = false;
+    },
   },
   extraReducers: {
     [loginUserAction.pending]: (state) => {
-      state.loadingData = true;
-      state.loading = true;
+      state.loadingLogin = true;
+      state.error = false;
+      state.message = '';
+      state.showSnackbar = false;
     },
     [loginUserAction.fulfilled]: (state, action: any) => {
-      state.loading = false;
+      state.loadingLogin = false;
       state.error = action.payload.error;
       state.message = action.payload.message;
       if (!action.payload.error) {
         state.isAuthenticated = true;
         state.user = action.payload.user;
+      } else {
+        state.showSnackbar = true;
       }
     },
     [loginUserAction.rejected]: (state, action: any) => {
-      state.loading = false;
-      state.loadingData = false;
+      state.loadingLogin = false;
       state.error = true;
       state.message = action.payload;
+      state.showSnackbar = true;
     },
     [updateUserAction.pending]: (state: any) => {
-      state.loadingData = true;
+      state.loadingApp = true;
     },
     [updateUserAction.fulfilled]: (state: any, action) => {
-      state.loadingData = false;
+      state.loadingApp = false;
       state.error = action.payload.error;
       state.message = action.payload.message;
       const user = state.user;
@@ -61,15 +69,15 @@ export const userSlice = createSlice({
       user.friendslist = action.payload.user.friendslist;
     },
     [updateUserAction.rejected]: (state: any, action) => {
-      state.loadingData = false;
+      state.loadingApp = false;
       state.error = true;
       state.message = action.payload;
     },
     [isUserAuthAction.pending]: (state) => {
-      state.loading = true;
+      state.loadingApp = true;
     },
     [isUserAuthAction.fulfilled]: (state, action: any) => {
-      state.loading = false;
+      state.loadingApp = false;
       state.error = action.payload.error;
       state.message = action.payload.message;
       if (!action.payload.error) {
@@ -78,7 +86,7 @@ export const userSlice = createSlice({
       }
     },
     [isUserAuthAction.rejected]: (state, action: any) => {
-      state.loading = false;
+      state.loadingApp = false;
       state.error = true;
       state.message = action.payload;
       state.isAuthenticated = false;
@@ -86,6 +94,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { noUser, loadAllUsers } = userSlice.actions;
+export const { noUser, loadAllUsers, hideSnackbar } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -1,7 +1,6 @@
-import React from 'react'
-import { Text, StyleSheet } from 'react-native'
+import React from 'react';
+import { Text, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 
 import { noUser } from '../redux/slices/userSlice';
 import { useAppDispatch, useAppSelector } from '../redux/hooks';
@@ -21,16 +20,12 @@ export const SettingScreen = () => {
 
   return (
     <Layout>
-      <Text style={styles.text}>
-        This is {user?.firstname || 'unknown'}'s profile
-      </Text>
+      <Text style={styles.text}>This is {user?.firstname || 'unknown'}'s profile</Text>
       <ButtonPrimary title="Logout" onPress={logOut} />
     </Layout>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  text: {
-    color: '#fff'
-  }
+  text: {},
 });

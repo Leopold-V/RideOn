@@ -19,3 +19,8 @@ export type UserAPIResponse = {
 export type UserLoginAPIResponse = UserAPIResponse & {
   token: string;
 };
+
+export type credentials = {
+  email: string;
+  password: string;
+};

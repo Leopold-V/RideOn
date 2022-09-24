@@ -60,15 +60,15 @@ export const getUser = async (id: string): Promise<UserAPIResponse> => {
 };
 
 export const isUserAuth = async (token: string): Promise<UserAPIResponse> => {
-    const response = await fetch(`http://localhost:3001/api/v1/users/auth`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({token: token})
-    });
-    const data = await response.json();
-    return data;
+  const response = await fetch(`http://localhost:3001/api/v1/users/auth`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ token: token }),
+  });
+  const data = await response.json();
+  return data;
 };
 
 export default { loginUser, createUser, updateUser, getUser, isUserAuth };

@@ -22,7 +22,7 @@ const RootStack = createBottomTabNavigator<RootStackParamList>();
 export const Navigation = () => {
   const user: any = useAppSelector((state: any) => state.user);
 
-  if (user.loading) {
+  if (user.loadingApp) {
     return (
       <Layout>
         <Text style={styles.text}>Loading...</Text>

@@ -26,8 +26,8 @@ export const isUserAuthAction: any = createAsyncThunk(
     try {
       const tokenData = await storage.getData('token');
       if (tokenData.token) {
-      const result: any = await userService.isUserAuth(tokenData.token);
-      return { ...result };
+        const result: any = await userService.isUserAuth(tokenData.token);
+        return { ...result };
       } else {
         throw new Error(tokenData.message);
       }
@@ -51,4 +51,3 @@ export const loginUserAction: any = createAsyncThunk(
     }
   }
 );
-

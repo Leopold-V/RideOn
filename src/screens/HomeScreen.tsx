@@ -8,6 +8,7 @@ import { updateUserAction } from '../redux/actions/user.actions';
 
 import { Layout } from '@Components/Layout';
 import { ButtonPrimary } from '@Components/Common/Button';
+import { StyleSheet, View } from 'react-native';
 
 type Props = NativeStackScreenProps<RootStackParamList>;
 
@@ -46,10 +47,7 @@ export const HomeScreen = ({ navigation }: Props) => {
     <Layout>
       <ButtonPrimary title="Update a user" onPress={updateUser} />
       <ButtonPrimary title="Get a user" onPress={getUser} />
-      <ButtonPrimary
-        title="Go to user profile"
-        onPress={() => navigation.navigate('Settings')}
-      />
+      <ButtonPrimary title="Go to user profile" onPress={() => navigation.navigate('Settings')} />
     </Layout>
   );
 };
