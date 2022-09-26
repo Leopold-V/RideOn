@@ -17,10 +17,10 @@ password: '1234567',
 */
 
 export const SignIn = () => {
+  const dispatch = useAppDispatch();
   const showSnackbar = useAppSelector((state: any) => state.user.showSnackbar);
   const message = useAppSelector((state: any) => state.user.message);
   const loadingLogin = useAppSelector((state: any) => state.user.loadingLogin);
-  const dispatch = useAppDispatch();
   const [credentials, setCredentials] = useState<credentials>({
     email: '',
     password: '',

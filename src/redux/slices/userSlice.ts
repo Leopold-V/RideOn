@@ -1,5 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { isUserAuthAction, loginUserAction, updateUserAction } from '../actions/user.actions';
+import {
+  isUserAuthAction,
+  loginUserAction,
+  newUserAction,
+  updateUserAction,
+} from '../actions/user.actions';
 
 export const userSlice = createSlice({
   name: 'user',
@@ -49,6 +54,24 @@ export const userSlice = createSlice({
       }
     },
     [loginUserAction.rejected]: (state, action: any) => {
+      state.loadingLogin = false;
+      state.error = true;
+      state.message = action.payload;
+      state.showSnackbar = true;
+    },
+    [newUserAction.pending]: (state) => {
+      state.loadingLogin = true;
+      state.error = false;
+      state.message = '';
+      state.showSnackbar = false;
+    },
+    [newUserAction.fulfilled]: (state, action: any) => {
+      state.loadingLogin = false;
+      state.error = action.payload.error;
+      state.message = action.payload.message;
+      state.showSnackbar = true;
+    },
+    [newUserAction.rejected]: (state, action: any) => {
       state.loadingLogin = false;
       state.error = true;
       state.message = action.payload;

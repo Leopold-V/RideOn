@@ -1,5 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { User, UserLoginAPIResponse } from '@Types/user';
+import { User, UserAPIResponse, UserLoginAPIResponse } from '@Types/user';
 import userService from '../../services/user.service';
 import storage from '../../utils/asyncStorage';
 
@@ -45,6 +45,18 @@ export const loginUserAction: any = createAsyncThunk(
       if (!result.error) {
         await storage.storeData('token', result.token);
       }
+      return { ...result };
+    } catch (error: any) {
+      return rejectWithValue(error.message);
+    }
+  }
+);
+
+export const newUserAction: any = createAsyncThunk(
+  'users/newUser',
+  async (data: User, { rejectWithValue }) => {
+    try {
+      const result: UserAPIResponse = await userService.createUser(data);
       return { ...result };
     } catch (error: any) {
       return rejectWithValue(error.message);
