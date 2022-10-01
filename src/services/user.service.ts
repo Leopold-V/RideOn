@@ -1,4 +1,5 @@
 import { User, UserAPIResponse, UserLoginAPIResponse } from '@Types/user';
+import { API_URL } from '../constant';
 import storage from '../utils/asyncStorage';
 
 export const loginUser = async (email: string, password: string): Promise<UserLoginAPIResponse> => {
@@ -29,7 +30,7 @@ export const createUser = async (user: User): Promise<UserAPIResponse> => {
 };
 
 export const updateUser = async (user: User, token: string): Promise<UserAPIResponse> => {
-  const response = await fetch(`http://localhost:3001/api/v1/users/${user.id}`, {
+  const response = await fetch(`${API_URL}/api/v1/users/${user.id}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -45,7 +46,7 @@ export const updateUser = async (user: User, token: string): Promise<UserAPIResp
 export const getUser = async (id: string): Promise<UserAPIResponse> => {
   const result = await storage.getData('token');
   if (!result.error) {
-    const response = await fetch(`http://localhost:3001/api/v1/users/${id}`, {
+    const response = await fetch(`${API_URL}/api/v1/users/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -60,7 +61,7 @@ export const getUser = async (id: string): Promise<UserAPIResponse> => {
 };
 
 export const isUserAuth = async (token: string): Promise<UserAPIResponse> => {
-  const response = await fetch(`http://localhost:3001/api/v1/users/auth`, {
+  const response = await fetch(`${API_URL}/api/v1/users/auth`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

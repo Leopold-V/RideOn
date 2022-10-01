@@ -1,6 +1,7 @@
 import { Dispatch } from 'react';
-import { credentials } from '@Types/user';
 import { TextInput } from 'react-native-paper';
+
+import { credentials, registration } from '@Types/user';
 
 export const Input = ({
   label,
@@ -9,10 +10,10 @@ export const Input = ({
 }: {
   label: string;
   credentials: credentials;
-  setCredentials: Dispatch<React.SetStateAction<credentials>>;
+  setCredentials: Dispatch<React.SetStateAction<registration>> | Dispatch<React.SetStateAction<credentials>>;
 }) => {
   const handleChange = (value: string) => {
-    setCredentials((credentials) => ({ ...credentials, [label]: value }));
+    setCredentials((credentials: any) => ({ ...credentials, [label]: value }));
   };
 
   return (
